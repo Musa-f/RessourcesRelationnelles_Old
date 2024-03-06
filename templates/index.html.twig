@@ -1,11 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
-
 {% block body %}
-    {% include 'sections/header.html.twig' %}
-        <div class="container">
-            {% block container %}{% endblock %} 
-        </div>
+    {% include 'sections/header.html.twig' %}   
+        {% block container %}{% endblock %} 
     {% include 'sections/footer.html.twig' %}
 {% endblock %} 
