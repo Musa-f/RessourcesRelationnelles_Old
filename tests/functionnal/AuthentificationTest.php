@@ -1,7 +1,6 @@
 <?php
 
 use App\Entity\User;
-use App\Service\AuthentificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -22,18 +21,19 @@ class AuthentificationTest extends KernelTestCase
         $this->entityManager = $container->get(EntityManagerInterface::class);
     }
 
-    public function testRegisterUser(): void
+    public function testCreateUser(): void
     {
         $userLogin = "test";
         $userEmail = "test@example.com";
         $userPassword = "123456789";
 
-        $authService = new AuthentificationService($this->userPasswordHasher, $this->entityManager);
-
-        $modelUser = $authService->registerUser(
+        $modelUser = $this->entityManager->getRepository(User::class)->createUser(
+            $this->entityManager,
+            $this->userPasswordHasher,
             $userLogin,
             $userEmail,
-            $userPassword
+            $userPassword,
+            1
         );
 
         $user = $this->entityManager->getRepository(User::class)->find($modelUser->getId());

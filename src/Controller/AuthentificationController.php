@@ -42,10 +42,13 @@ class AuthentificationController extends AbstractController
 
                 $authService->validatePasswordStrength($form->get('password')->getData());
 
-                $authService->registerUser(
+                $this->entityManager->getRepository(User::class)->createUser(
+                    $this->entityManager,
+                    $this->userPasswordHasher,
                     $form->get('login')->getData(),
                     $form->get('email')->getData(),
-                    $form->get('password')->getData()
+                    $form->get('password')->getData(),
+                    1
                 );
 
                 return $this->redirectToRoute('app_index');

@@ -9,33 +9,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AuthentificationService
 {
-    private $userPasswordHasher;
     private $entityManager;
 
-    public function __construct(UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->userPasswordHasher = $userPasswordHasher;
         $this->entityManager = $entityManager;
-    }
-
-    public function registerUser($login, $email, $password)
-    {
-        $user = new User();
-        $user->setLogin($login);
-        $user->setEmail($email);
-        $user->setCreationDate(new DateTime());
-        $user->setPassword(
-            $this->userPasswordHasher->hashPassword(
-                $user,
-                $password
-            )
-        );
-        $user->setActive(1);
-
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
-        return $user;
     }
 
     public function validateUniqueness($login, $email)
