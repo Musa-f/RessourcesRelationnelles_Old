@@ -1,0 +1,48 @@
+.stepper{
+    .step-bar{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    
+        li{
+            list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    
+            button{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: grey;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .step-content{
+        .form-step{
+            display: none;
+        }
+
+        #formStep3 {
+            div {
+                display: none;
+            }
+        }
+
+        select.select-users, .select2-container{
+            width: 100% !important;
+        }
+    }
+
+    .active-step-btn{
+        background-color: $color-primary !important;
+    }
+    
+    .active-step{
+        display: block !important;
+    } 
+}

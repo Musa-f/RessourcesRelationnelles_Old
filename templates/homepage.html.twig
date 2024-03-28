@@ -3,9 +3,88 @@
 {% block title %}Accueil{% endblock %}
 
 {% block container %}
+    <div class="bg-homepage">
+        {% if app.user %}
+        <button class="btn" data-bs-toggle="modal" data-bs-target="#modalNewRessource">Créer une ressource</button>
+        {% endif %}
+
+        <div class="banner"></div>
+
+        <div class="research-box col-lg-5">
+            <div class="row text-center">
+                <h3>Rechercher une ressource</h3>
+            </div>
+            <div class="row search-text m-2">
+                <div class="col input-group">
+                    <input type="text" class="form-control" placeholder="Mot-clé">
+                    <div class="input-group-append">
+                        <input 
+                            type="submit"
+                            class="input-group-text filter-btn" 
+                            value="Valider"
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="row filters m-2">
+                <div class="col-lg col-sm-12">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Catégorie</option>
+                        <option value="1">One</option>
+                    </select>
+                </div>
+                <div class="col-lg col-sm-12">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Relation</option>
+                        <option value="1">One</option>
+                    </select>
+                </div>
+                <div class="col-lg col-sm-12">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Filtrer par</option>
+                        <option value="1">One</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-5 text-center">
+                <hr>
+            </div>
+        </div>
+
         {% if app.user %}
             {% include 'ressource/new_form.html.twig' %}
         {% endif %}
+
+        {% for i in 1..6 %}
+        <div class="row container-ressource">
+            <div class="col-7 alert alert-light mx-auto my-3">
+                <div class="row header-ressource">
+                    <div class="col">
+                        <p class="m-0">Type</p>
+                        <h3 class="m-0">Nom ressource</h3>
+                    </div>
+                </div>
+                <div class="row body-ressource">
+                    <div class="col">
+                        content
+                    </div>
+                </div>
+                <div class="row footer-ressource">
+                    <div class="col">
+                        <hr>
+                        footer
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
     </div>
 {% endblock %} 
