@@ -45,4 +45,12 @@
     .active-step{
         display: block !important;
     } 
+
+    button#nextBtn{
+        background-color: $color-secondary;
+        color: white;
+        &:hover{
+            background-color: $color-secondary-2;
+        }
+    }
 }

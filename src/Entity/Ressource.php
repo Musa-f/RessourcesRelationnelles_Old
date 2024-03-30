@@ -23,7 +23,10 @@ class Ressource
     private ?\DateTimeInterface $creationDate = null;
 
     #[ORM\Column]
-    private ?bool $visibility = null;
+    private ?int $visibility = null;
+
+    #[ORM\Column]
+    private ?bool $active = null;
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
@@ -39,8 +42,8 @@ class Ressource
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ressource')]
-    private ?File $file = null;
+    #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'ressource')]
+    private Collection $files;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'liked')]
     #[ORM\JoinTable(name: "likes")]
@@ -54,9 +57,19 @@ class Ressource
     #[ORM\JoinTable(name: "views")]
     private Collection $views;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'shared')]
+    #[ORM\JoinTable(name: "shares")]
+    private Collection $shares;
+
     #[ORM\ManyToOne(inversedBy: 'ressources')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $publicationDate = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $content = null;
 
     public function __construct()
     {
@@ -64,6 +77,7 @@ class Ressource
         $this->likes = new ArrayCollection();
         $this->saves = new ArrayCollection();
         $this->views = new ArrayCollection();
+        $this->files = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,14 +109,26 @@ class Ressource
         return $this;
     }
 
-    public function isVisibility(): ?bool
+    public function getVisibility(): ?int
     {
         return $this->visibility;
     }
 
-    public function setVisibility(bool $visibility): static
+    public function setVisibility(int $visibility): static
     {
         $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): static
+    {
+        $this->active = $active;
 
         return $this;
     }
@@ -173,14 +199,32 @@ class Ressource
         return $this;
     }
 
-    public function getFile(): ?File
+    /**
+     * @return Collection<int, File>
+     */
+    public function getFiles(): Collection
     {
-        return $this->file;
+        return $this->files;
     }
 
-    public function setFile(?File $file): static
+    public function addFile(File $file): static
     {
-        $this->file = $file;
+        if (!$this->files->contains($file)) {
+            $this->files->add($file);
+            $file->setRessource($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(File $file): static
+    {
+        if ($this->files->removeElement($file)) {
+            // set the owning side to null (unless already changed)
+            if ($file->getRessource() === $this) {
+                $file->setRessource(null);
+            }
+        }
 
         return $this;
     }
@@ -257,6 +301,30 @@ class Ressource
         return $this;
     }
 
+    /**
+     * @return Collection<int, User>
+     */
+    public function getShares(): Collection
+    {
+        return $this->shares;
+    }
+
+    public function addShare(User $share): static
+    {
+        if (!$this->shares->contains($share)) {
+            $this->shares->add($share);
+        }
+
+        return $this;
+    }
+
+    public function removeShare(User $share): static
+    {
+        $this->shares->removeElement($share);
+
+        return $this;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -265,6 +333,30 @@ class Ressource
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPublicationDate(): ?\DateTimeInterface
+    {
+        return $this->publicationDate;
+    }
+
+    public function setPublicationDate(?\DateTimeInterface $publicationDate): static
+    {
+        $this->publicationDate = $publicationDate;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): static
+    {
+        $this->content = $content;
 
         return $this;
     }

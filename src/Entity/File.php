@@ -21,13 +21,8 @@ class File
     #[ORM\Column]
     private ?int $size = null;
 
-    #[ORM\OneToMany(targetEntity: Ressource::class, mappedBy: 'file')]
-    private Collection $ressource;
-
-    public function __construct()
-    {
-        $this->ressource = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(targetEntity: Ressource::class, inversedBy: 'files')]
+    private ?Ressource $ressource = null;
 
     public function getId(): ?int
     {
@@ -58,32 +53,14 @@ class File
         return $this;
     }
 
-    /**
-     * @return Collection<int, Ressource>
-     */
-    public function getRessource(): Collection
+    public function getRessource(): ?Ressource
     {
         return $this->ressource;
     }
 
-    public function addRessource(Ressource $ressource): static
+    public function setRessource(?Ressource $ressource): static
     {
-        if (!$this->ressource->contains($ressource)) {
-            $this->ressource->add($ressource);
-            $ressource->setFile($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRessource(Ressource $ressource): static
-    {
-        if ($this->ressource->removeElement($ressource)) {
-            // set the owning side to null (unless already changed)
-            if ($ressource->getFile() === $this) {
-                $ressource->setFile(null);
-            }
-        }
+        $this->ressource = $ressource;
 
         return $this;
     }

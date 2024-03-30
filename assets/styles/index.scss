@@ -5,6 +5,19 @@ body{
     height: 100vh;
 }
 
+.form-control:focus, .form-select:focus {
+    border-color: $color-secondary !important;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 3px $color-secondary !important;
+}
+
+button[data-bs-class="tooltip-custom"]{
+    margin: 0;
+    padding: 0;
+    i{
+        color: $color-secondary;
+    }
+}
+
 button.button-secondary{
     width: 180px;
     background-color: $color-secondary;
@@ -90,6 +103,17 @@ footer{
                     }
                 }
             }
+        }
+    }
+
+    div.medias{
+        width: 20%;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+
+        i{
+            font-size: 1.3em;
         }
     }
 }

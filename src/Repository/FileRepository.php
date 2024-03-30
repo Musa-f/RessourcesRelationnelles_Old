@@ -21,28 +21,24 @@ class FileRepository extends ServiceEntityRepository
         parent::__construct($registry, File::class);
     }
 
-    //    /**
-    //     * @return File[] Returns an array of File objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('f.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function createFile($fileData, $ressource)
+    {
+        $entityManager = $this->getEntityManager();
+        
+        $file = new File();
+        $file->setName($fileData->getClientOriginalName());
+        $file->setSize(5);
+        $file->setRessource($ressource);
+        $entityManager->persist($file);
+        $entityManager->flush();
 
-    //    public function findOneBySomeField($value): ?File
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $uploadDirectory = 'uploads/' . $ressource->getId(); 
+        if (!file_exists($uploadDirectory)) {
+            mkdir($uploadDirectory, 0777, true);
+        }
+
+        $filePath = $uploadDirectory . '/' . $fileData->getClientOriginalName();
+        $fileData->move($uploadDirectory, $fileData->getClientOriginalName());
+    }
+
 }

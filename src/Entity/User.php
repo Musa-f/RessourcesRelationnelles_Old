@@ -59,6 +59,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Ressource::class, mappedBy: 'views')]
     private Collection $viewed;
 
+    #[ORM\ManyToMany(targetEntity: Ressource::class, mappedBy: 'shares')]
+    private Collection $shared;
+
     #[ORM\OneToMany(targetEntity: Ressource::class, mappedBy: 'user')]
     private Collection $ressources;
 
@@ -82,6 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->liked = new ArrayCollection();
         $this->saved = new ArrayCollection();
         $this->viewed = new ArrayCollection();
+        $this->shared = new ArrayCollection();
         $this->ressources = new ArrayCollection();
         $this->messageSender = new ArrayCollection();
         $this->messageReceiver = new ArrayCollection();
@@ -359,6 +363,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->viewed->removeElement($viewed)) {
             $viewed->removeView($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ressource>
+     */
+    public function getShared(): Collection
+    {
+        return $this->shared;
+    }
+
+    public function addShared(Ressource $shared): static
+    {
+        if (!$this->shared->contains($shared)) {
+            $this->shared->add($shared);
+            $shared->addShare($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShared(Ressource $shared): static
+    {
+        if ($this->shared->removeElement($shared)) {
+            $shared->removeView($this);
         }
 
         return $this;
