@@ -7,8 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Service\AuthentificationService;
+use App\Service\SecurityService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ class AuthentificationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, AuthentificationService $authService): Response
+    public function register(Request $request, SecurityService $authService): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);

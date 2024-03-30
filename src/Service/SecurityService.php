@@ -7,7 +7,7 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class AuthentificationService
+class SecurityService
 {
     private $entityManager;
 
