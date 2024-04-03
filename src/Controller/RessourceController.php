@@ -52,16 +52,30 @@ class RessourceController extends AbstractController
     #[Route('/ressource/non-active/list/moderator', name: 'list_non_active_resources')]
     public function list_non_active_resources(): Response
     {
-        $ressources = $this->entityManager->getRepository(Ressource::class)->ressourceNotActivated();
+        $ressources = $this->entityManager->getRepository(Ressource::class)->findNotActivatedRessources();
 
         return $this->render('moderator/control_ressource.html.twig', [
             "ressources" => $ressources
         ]);
     }
 
-    #[Route('/ressource/non-active/validation/moderator', name: 'validation_non_active_resources')]
-    public function validation_non_active_resources(): Response
+    #[Route('/ressource/non-active/validation/moderator', name: 'validation_non_active_ressources')]
+    public function validation_non_active_resources(Request $request): Response
     {
-        return new Response();
+        $data = json_decode($request->getContent(), true);
+        $ressourceId = $data['ressourceId'];
+        $userId = $data['userId'];
+
+        $ressource = $this->entityManager->getRepository(Ressource::class)->find($ressourceId);
+        $ressource->setActive(1);
+        $this->entityManager->persist($ressource);
+        $this->entityManager->flush();
+
+        $response = [
+            'message' => 'Validation de la ressource réussie',
+            'status' => 'success'
+        ];
+
+        return new JsonResponse($response);
     }
 }

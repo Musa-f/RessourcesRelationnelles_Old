@@ -51,12 +51,37 @@ class RessourceRepository extends ServiceEntityRepository
         }
     }
 
-    public function ressourceNotActivated()
+    //*** visiblesRessources
+    //contient toutes les ressources en publique (visibility à 2)
+    //contient toutes les ressources en privées (visiblity à 0) si l'id user rattaché à la ressource est le même que celui de la session en cours (celui passé en argument à la méthode)
+    //contient toutes les ressources en partagées (visibility à 1) si l'id du user est dans la table "shares"
+
+    public function findNotActivatedRessources()
     {
         return $this->createQueryBuilder('r')
             ->leftJoin(User::class, 'u', 'WITH', 'u.active = 1')
             ->andWhere('r.active = 0')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findResourcesByVisibility($userId)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->andWhere('r.visibility = :publicVisibility')
+            ->setParameter('publicVisibility', 2);
+
+        $user = $this->security->getUser();
+        if ($user) {
+            $qb->orWhere('r.visibility = :privateVisibility AND r.user = :userId')
+               ->setParameter('privateVisibility', 0)
+               ->setParameter('userId', $userId);
+
+            $qb->orWhere(':user MEMBER OF r.shares AND r.visibility = :sharedVisibility')
+               ->setParameter('sharedVisibility', 1)
+               ->setParameter('user', $user);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }
