@@ -10,11 +10,11 @@
            <hr class="mb-5">
 
             {% for flash_type, flash_messages in app.flashes %}
-                {% for flash_message in flash_messages %}
-                    <div class="alert alert-danger">
+                <div class="alert alert-{{flash_type}}">
+                    {% for flash_message in flash_messages %}
                         {{ flash_message }}
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             {% endfor %}
 
             {{ form_start(registrationForm) }}

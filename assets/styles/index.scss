@@ -164,3 +164,36 @@ footer{
         }
     }
 }
+
+div.system-messages{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    img{
+        width: 30%;
+        margin: 2%;
+    }
+
+    .alert{
+        width: 40%;
+        text-align: center;
+        .message {
+            font-size: 1.2em;
+            color: $color-primary;
+        }
+
+        .alert-link {
+            color: $color-secondary;
+            font-weight: lighter;
+            text-decoration: none;
+          }
+          
+        .alert-link:hover {
+        color: #1a444b;
+        }
+    }
+      
+  }
+  

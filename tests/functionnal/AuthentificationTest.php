@@ -26,6 +26,7 @@ class AuthentificationTest extends KernelTestCase
         $userLogin = "test";
         $userEmail = "test@example.com";
         $userPassword = "123456789";
+        $token = "fakeToken";
 
         $modelUser = $this->entityManager->getRepository(User::class)->createUser(
             $this->entityManager,
@@ -33,7 +34,7 @@ class AuthentificationTest extends KernelTestCase
             $userLogin,
             $userEmail,
             $userPassword,
-            1
+            $token
         );
 
         $user = $this->entityManager->getRepository(User::class)->find($modelUser->getId());

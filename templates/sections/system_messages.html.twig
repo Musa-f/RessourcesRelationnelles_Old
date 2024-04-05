@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="system-messages">
+    <img src="{{asset('assets/images/logo_1.png')}}" alt="">
+    <div class="alert alert-light" role="alert">
+        <span class="message">{{message}}</span>
+        <hr>
+        <a href="{{path('app_index')}}" class="alert-link"><i class="bi bi-house-door-fill"></i> Revenir à l'accueil</a>
+    </div>
+</div>
+</div>
+{% endblock %}

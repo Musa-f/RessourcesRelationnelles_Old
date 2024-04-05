@@ -12,9 +12,11 @@ security:
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
+            user_checker: App\Security\UserChecker
             security: false
         main:
             lazy: true
+            user_checker: App\Security\UserChecker
             provider: app_user_provider
             form_login:
                 login_path: app_login
