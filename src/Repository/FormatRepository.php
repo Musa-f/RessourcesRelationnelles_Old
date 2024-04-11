@@ -21,12 +21,4 @@ class FormatRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Format::class);
     }
-
-    public function getFormat($data)
-    {
-        $entityManager = $this->getEntityManager();
-        $format = $entityManager->getRepository(Format::class)->find($data['format']);
-
-        return $format;
-    }
 }

@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\File;
 use App\Entity\Format;
 use App\Entity\Ressource;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,10 +35,16 @@ class RessourceController extends AbstractController
         try {
             $data = json_decode($request->request->get('data'), true);
             $file = $request->files->get('file');
+            $sharedUsers = [];
+            if($data['users']){
+                foreach($data['users'] as $sharedIdUser){
+                    $sharedUsers[] = $this->entityManager->getRepository(User::class)->find($sharedIdUser);
+                }
+            }
 
-            $format = $this->entityManager->getRepository(Format::class)->getFormat($data);
-            $category = $this->entityManager->getRepository(Category::class)->getCategory($data);
-            $ressource = $this->entityManager->getRepository(Ressource::class)->createRessource($data, $format, $category, $this->getUser());
+            $format = $this->entityManager->getRepository(Format::class)->find($data['format']);
+            $category = $this->entityManager->getRepository(Category::class)->find($data['category']);
+            $ressource = $this->entityManager->getRepository(Ressource::class)->createRessource($data, $format, $category, $this->getUser(), $sharedUsers);
 
             if(!empty($file)) {
                 $this->entityManager->getRepository(File::class)->createFile($file, $ressource);

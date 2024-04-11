@@ -77,6 +77,7 @@ class Ressource
         $this->likes = new ArrayCollection();
         $this->saves = new ArrayCollection();
         $this->views = new ArrayCollection();
+        $this->shares = new ArrayCollection();
         $this->files = new ArrayCollection();
     }
 

@@ -20,12 +20,4 @@ class CategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Category::class);
     }
-
-    public function getCategory($data)
-    {
-        $entityManager = $this->getEntityManager();
-        $category = $entityManager->getRepository(Category::class)->find($data['category']);
-
-        return $category;
-    }
 }
