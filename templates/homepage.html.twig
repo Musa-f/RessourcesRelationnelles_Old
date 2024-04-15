@@ -3,6 +3,7 @@
 {% block title %}Accueil{% endblock %}
 
 {% block container %}
+<div data-controller="responses--resourceResponse">
     <div class="bg-homepage">
         {% if app.user %}
         <button class="btn" data-bs-toggle="modal" data-bs-target="#modalNewRessource">Créer une ressource</button>
@@ -28,19 +29,17 @@
             </div>
             <div class="row filters m-2">
                 <div class="col-lg col-sm-12">
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select select-category">
                         <option selected>Catégorie</option>
-                        <option value="1">One</option>
                     </select>
                 </div>
                 <div class="col-lg col-sm-12">
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select select-link">
                         <option selected>Relation</option>
-                        <option value="1">One</option>
                     </select>
                 </div>
                 <div class="col-lg col-sm-12">
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select">
                         <option selected>Filtrer par</option>
                         <option value="1">Popularité</option>
                         <option value="1">Croissant</option>
@@ -53,7 +52,6 @@
 
 
     <div class="container">
-
         <div class="row justify-content-center">
             <div class="col-5 text-center">
                 <hr>
@@ -64,29 +62,17 @@
             {% include 'ressource/new_form.html.twig' %}
         {% endif %}
 
-        {% for i in 1..6 %}
-        <div class="row container-ressource">
-            <div class="col-7 alert alert-light mx-auto my-3">
-                <div class="row header-ressource">
-                    <div class="col">
-                        <p class="m-0">Type</p>
-                        <h3 class="m-0">Nom ressource</h3>
-                    </div>
-                </div>
-                <div class="row body-ressource">
-                    <div class="col">
-                        content
-                    </div>
-                </div>
-                <div class="row footer-ressource">
-                    <div class="col">
-                        <hr>
-                        footer
-                    </div>
-                </div>
-            </div>
+        <div class="container-resource">
+            {% include 'ressource/ressource.html.twig' %}
         </div>
-        {% endfor %}
 
+        <div class="text-center mb-4">
+            <button 
+                id="load-more-button" 
+                class="btn button-primary" 
+                data-action="click->responses--resourceResponse#loadMore"
+            >Afficher plus</button>
+        </div>  
     </div>
+</div>
 {% endblock %} 

@@ -18,6 +18,18 @@ button[data-bs-class="tooltip-custom"]{
     }
 }
 
+button.button-primary{
+    width: 180px;
+    background-color: $color-primary;
+    color: white;
+    margin-bottom: 2%;
+
+    &:hover{
+        background-color: $hover-primary;
+        color: white;
+    }
+}
+
 button.button-secondary{
     width: 180px;
     background-color: $color-secondary;

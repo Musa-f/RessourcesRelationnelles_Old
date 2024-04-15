@@ -66,7 +66,7 @@ class RessourceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findResourcesByVisibility($user = null)
+    public function findResourcesByVisibility($user = null, $page = 1, $limit = 5)
     {
         $qb = $this->createQueryBuilder('r')
             ->andWhere('r.visibility = :publicVisibility')
@@ -85,6 +85,9 @@ class RessourceRepository extends ServiceEntityRepository
             $qb->orWhere('r.user = :user')
                 ->setParameter('user', $user->getId());
         }
+
+        $qb->setMaxResults($limit)
+        ->setFirstResult(($page - 1) * $limit);
 
         return $qb->getQuery()->getResult();
     }

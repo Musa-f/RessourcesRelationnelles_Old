@@ -54,3 +54,17 @@
         }
     }
 }
+
+#resource-template{
+    .header-ressource{
+        .category{
+            background-color: $color-primary;
+            color: white;
+            cursor:default;
+        }
+    }
+
+    .body-ressource{
+
+    }
+}
