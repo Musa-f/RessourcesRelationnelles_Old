@@ -209,3 +209,25 @@ div.system-messages{
       
   }
   
+  @media (min-width: 768px) {
+    nav{
+        position: sticky !important;
+        z-index: 5;
+        top: 0px;
+    }
+}
+
+  @media (max-width: 768px) {
+    nav{
+        ul{
+            li{
+                list-style-type: none !important;
+                font-size: 1.5em;
+
+                &.add-btn{
+                    font-size: 2em;
+                }
+            }
+        }
+    }
+}

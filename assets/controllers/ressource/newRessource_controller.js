@@ -22,9 +22,9 @@ export default class extends Controller {
         tooltipTriggerList.forEach(function(tooltipTriggerEl) { new Tooltip(tooltipTriggerEl); });
     }
     
-    createRessource()
+    addResource()
     {
-        let url = this.modalBody.dataset.url;
+        let url = "/api/resource/add";
         let data = new FormData();
         data.append("data", JSON.stringify(this.postData));
 
@@ -68,7 +68,7 @@ export default class extends Controller {
     changeStyle(currentStep, currentForm)
     {
         if (currentStep == 4) {
-            this.createRessource();
+            this.addResource();
             return;
         }
         let nextStep = parseInt(currentStep)+1;

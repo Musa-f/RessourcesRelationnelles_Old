@@ -29,33 +29,6 @@ class RessourceController extends AbstractController
         return $this->render('ressource/index.html.twig', []);
     }
 
-    #[Route('/ressource/create/user', name: 'create_ressource')]
-    public function create_ressource(Request $request): JsonResponse
-    {
-        try {
-            $data = json_decode($request->request->get('data'), true);
-            $file = $request->files->get('file');
-            $sharedUsers = [];
-            if($data['users']){
-                foreach($data['users'] as $sharedIdUser){
-                    $sharedUsers[] = $this->entityManager->getRepository(User::class)->find($sharedIdUser);
-                }
-            }
-
-            $format = $this->entityManager->getRepository(Format::class)->find($data['format']);
-            $category = $this->entityManager->getRepository(Category::class)->find($data['category']);
-            $ressource = $this->entityManager->getRepository(Ressource::class)->createRessource($data, $format, $category, $this->getUser(), $sharedUsers);
-
-            if(!empty($file)) {
-                $this->entityManager->getRepository(File::class)->createFile($file, $ressource);
-            }
-    
-            return new JsonResponse(['success' => true, 'message' => 'Ressource créée avec succès']);
-        } catch (ORMException $e) {
-            return new JsonResponse(['success' => false, 'error' => 'Erreur lors de la création de la ressource : ' . $e->getMessage()], 500);
-        }
-    }
-
     #[Route('/ressource/non-active/list/moderator', name: 'list_non_active_resources')]
     public function list_non_active_resources(): Response
     {

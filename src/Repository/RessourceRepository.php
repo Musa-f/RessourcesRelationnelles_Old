@@ -66,7 +66,7 @@ class RessourceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findResourcesByVisibility($user = null, $page = 1, $limit = 5)
+    public function findResourcesByVisibility($user = null, $category = null, $link = null, $sort = null, $page = 1, $limit = 5)
     {
         $qb = $this->createQueryBuilder('r')
             ->andWhere('r.visibility = :publicVisibility')
@@ -84,6 +84,22 @@ class RessourceRepository extends ServiceEntityRepository
 
             $qb->orWhere('r.user = :user')
                 ->setParameter('user', $user->getId());
+        }
+
+        if ($category) {
+            $qb->andWhere('r.category = :category')
+               ->setParameter('category', $category);
+        }
+    
+        if ($link) {
+        }
+
+        if ($sort === 'asc') {
+            $qb->orderBy('r.creationDate', 'ASC');
+        } elseif ($sort === 'desc') {
+            $qb->orderBy('r.creationDate', 'DESC');
+        } else {
+            $qb->orderBy('r.creationDate', 'DESC');
         }
 
         $qb->setMaxResults($limit)

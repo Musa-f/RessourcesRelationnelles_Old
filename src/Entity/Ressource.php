@@ -77,6 +77,7 @@ class Ressource
     private ?\DateTimeInterface $publicationDate = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups("resource.index")]
     private ?string $content = null;
 
     public function __construct()

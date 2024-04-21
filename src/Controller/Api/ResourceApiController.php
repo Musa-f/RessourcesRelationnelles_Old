@@ -28,9 +28,19 @@ class ResourceApiController extends AbstractController
         $currentUser = $this->getUser();
         $page = $request->query->getInt('page', 1); 
         $limit = $request->query->getInt('limit', 2); 
+        $category = $request->query->getInt('category');
+        $link = $request->query->getInt('link');
+        $sort = $request->query->get('sort');
 
         $resources = $this->entityManager->getRepository(Ressource::class)
-            ->findResourcesByVisibility($currentUser ? $currentUser : null, $page, $limit);
+            ->findResourcesByVisibility(
+                $currentUser ? $currentUser : null, 
+                $category, 
+                $link, 
+                $sort, 
+                $page, 
+                $limit
+            );
 
         $totalResources = count($resources);
 
@@ -49,13 +59,14 @@ class ResourceApiController extends AbstractController
         ]);
     }
 
-    #[Route('/api/resources', name: 'api_create_resource', methods: ['POST'])]
-    public function createResource(Request $request): JsonResponse
+    #[Route('/api/resource/add', name: 'api_add_resource', methods: ['POST'])]
+    public function addResource(Request $request): JsonResponse
     {
         try {
-            $data = json_decode($request->getContent(), true);
+            $data = json_decode($request->request->get('data'), true);
             $file = $request->files->get('file');
             $sharedUsers = [];
+
             if(!empty($data['users'])) {
                 foreach($data['users'] as $sharedIdUser) {
                     $sharedUsers[] = $this->entityManager->getRepository(User::class)->find($sharedIdUser);
