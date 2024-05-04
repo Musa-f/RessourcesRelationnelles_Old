@@ -66,12 +66,13 @@ class RessourceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findResourcesByVisibility($user = null, $category = null, $link = null, $sort = null, $page = 1, $limit = 5)
+    public function findResourcesByVisibility($user = null, $page = 1, $limit = 3)
     {
         $qb = $this->createQueryBuilder('r')
             ->andWhere('r.visibility = :publicVisibility')
             ->andWhere('r.active = 1')
-            ->setParameter('publicVisibility', 2);
+            ->setParameter('publicVisibility', 2)
+            ->orderBy('r.creationDate', 'DESC');
 
         if ($user) {
             $qb->orWhere('r.visibility = :privateVisibility AND r.user = :userId')
@@ -86,25 +87,29 @@ class RessourceRepository extends ServiceEntityRepository
                 ->setParameter('user', $user->getId());
         }
 
-        if ($category) {
-            $qb->andWhere('r.category = :category')
-               ->setParameter('category', $category);
-        }
-    
-        if ($link) {
-        }
-
-        if ($sort === 'asc') {
-            $qb->orderBy('r.creationDate', 'ASC');
-        } elseif ($sort === 'desc') {
-            $qb->orderBy('r.creationDate', 'DESC');
-        } else {
-            $qb->orderBy('r.creationDate', 'DESC');
-        }
-
         $qb->setMaxResults($limit)
         ->setFirstResult(($page - 1) * $limit);
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function searchResources($category, $link, $keyword)
+    {
+        $queryBuilder = $this->createQueryBuilder('r')
+            ->leftJoin('r.category', 'c')
+            ->where('r.title LIKE :keyword OR r.content LIKE :keyword')
+            ->setParameter('keyword', '%' . $keyword . '%');
+
+        if ($category) {
+            $queryBuilder->andWhere('c.id = :categoryId')
+                ->setParameter('categoryId', $category);
+        }
+
+        if ($link) {
+            $queryBuilder->andWhere('r.type = :link')
+                ->setParameter('link', $link);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }

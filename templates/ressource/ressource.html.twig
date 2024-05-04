@@ -1,10 +1,8 @@
 <div class="row d-none" id="resource-template">
-    <div class="col-11 col-lg-7 alert alert-light mx-auto my-3">
+    <div class="col-10 col-lg-7 alert alert-light mx-auto my-3">
         <div class="row header-ressource">
             <div class="col">
-                {# {% if ressource.active == 0 %}
-                    <p class="m-0 fw-light fst-italic">Non publiée</p>
-                {% endif %} #}
+                <p class="m-0 mb-2 fw-light fst-italic d-none published">Non publiée</p>
                 <div class="row mb-2">
                     <div class="col">
                         <p class="btn category m-0"></p>
@@ -21,24 +19,12 @@
         <div class="row body-ressource">
             <div class="col">
                 <hr>
-                <div class="row content-resource">
-                {# 
-                    {% if ressource.format.id == 1 %}
-                        {% for file in ressource.files %}
-                            <video controls width="250">
-                                <source src="{{asset('uploads/'~ressource.id~'/'~file.name)}}"/>
-                            </video>
-                        {% endfor %}
-                    {% elseif ressource.format.id == 2 %}
-                    {% elseif ressource.format.id == 3 %}
-                        {{ressource.content}}
-                    {% elseif ressource.format.id == 4 %}
-                    {% elseif ressource.format.id == 5 %}
-                        {{ressource.content}}
-                    {% elseif ressource.format.id == 6 %}
-                    {% endif %} 
-                    #}
-                </div>
+                <div class="row content-resource px-3">
+                </div>    
+            </div>
+            <div class="interactions-btn">
+                <button><i class="bi bi-heart"></i></button>
+                <button><i class="bi bi-bookmark"></i></button>
             </div>
         </div>
         <div class="row footer-ressource">

@@ -27,19 +27,11 @@ class ResourceApiController extends AbstractController
     {
         $currentUser = $this->getUser();
         $page = $request->query->getInt('page', 1); 
-        $limit = $request->query->getInt('limit', 2); 
-        $category = $request->query->getInt('category');
-        $link = $request->query->getInt('link');
-        $sort = $request->query->get('sort');
 
         $resources = $this->entityManager->getRepository(Ressource::class)
             ->findResourcesByVisibility(
-                $currentUser ? $currentUser : null, 
-                $category, 
-                $link, 
-                $sort, 
-                $page, 
-                $limit
+                $currentUser ? $currentUser : null,  
+                $page
             );
 
         $totalResources = count($resources);
@@ -47,7 +39,6 @@ class ResourceApiController extends AbstractController
         return $this->json([
             'total' => $totalResources,
             'page' => $page,
-            'limit' => $limit,
             'data' => $resources
         ], 200, [], [
             'groups' => [
@@ -87,7 +78,19 @@ class ResourceApiController extends AbstractController
         }
     }
 
-    #[Route('/api/ressources/non-active', name: 'api_list_non_active_resources', methods: ['GET'])]
+    #[Route('/api/resources/search', name: 'api_search_resources', methods: ['GET'])]
+    public function search(Request $request): JsonResponse
+    {
+        $category = $request->query->get('category');
+        $linkType = $request->query->get('link');
+        $keyword = $request->query->get('keyword');
+
+        $resources = $this->entityManager->getRepository(Ressource::class)->searchResources($category, $linkType, $keyword);
+
+        return $this->json($resources);
+    }
+
+    #[Route('/api/resources/non-active', name: 'api_list_non_active_resources', methods: ['GET'])]
     public function listNonActiveResources(): JsonResponse
     {
         $ressources = $this->entityManager->getRepository(Ressource::class)->findNotActivatedRessources();
@@ -95,7 +98,7 @@ class ResourceApiController extends AbstractController
         return new JsonResponse($ressources);
     }
 
-    #[Route('/api/ressources/{id}/activate', name: 'api_activate_ressource', methods: ['PATCH'])]
+    #[Route('/api/resources/{id}/activate', name: 'api_activate_ressource', methods: ['PATCH'])]
     public function activateRessource(int $id): JsonResponse
     {
         $ressource = $this->entityManager->getRepository(Ressource::class)->find($id);

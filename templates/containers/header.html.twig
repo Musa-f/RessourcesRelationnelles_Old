@@ -25,7 +25,7 @@
                 <a class="nav-link" href="#"><i class="bi bi-bookmark-fill"></i></a>
             </li>
             <li class="nav-item mx-3">
-                <a class="nav-link" href="#"><i class="bi bi-wechat"></i></a>
+                <a class="nav-link" href="{{path('app_private_chat')}}"><i class="bi bi-wechat"></i></a>
             </li>
             {% if is_granted('ROLE_MODERATOR') %}
             <li class="nav-item mx-3">
@@ -38,7 +38,7 @@
                     <i class="bi bi-person-circle"></i> {{app.user.getLogin}}
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Profil</a></li>
+                    <li><a class="dropdown-item" href="">Profil</a></li>
                     <li><a class="dropdown-item" href="#">Paramètre</a></li>
                     <li><a class="dropdown-item" href="{{path("app_logout")}}">Se déconnecter</a></li>
                 </ul>
@@ -60,6 +60,8 @@
 </nav>
 
 <nav class="d-block d-sm-none fixed-bottom p-3">
+
+    {% if app.user %}
     <ul class="d-flex justify-content-around align-items-center m-0 p-0">
         <li><i class="bi bi-house-door-fill"></i></li>
         <li><i class="bi bi-bookmark-fill"></i></li>
@@ -67,4 +69,16 @@
         <li><i class="bi bi-wechat"></i></li>
         <li><i class="bi bi-person-circle"></i></li>
     </ul>
+    {% else %}
+    <ul class="d-flex justify-content-around align-items-center m-0 p-0">
+        <li>
+            <a href="{{path('app_login')}}" class="mx-3">Connexion</a>
+        </li>
+        <li>
+            <a href="{{path('app_register')}}">
+                <button class="btn mx-3">Inscription</button>
+            </a>
+        </li>
+    </ul>
+    {% endif %}
 </nav>

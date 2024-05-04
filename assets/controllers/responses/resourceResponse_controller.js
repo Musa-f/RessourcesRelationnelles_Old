@@ -38,6 +38,9 @@ export default class extends Controller {
                 resource.classList.remove("d-none");
                 resource.querySelector('h3.title').innerHTML = e.title;
                 resource.querySelector('p.category').innerHTML = e.category.name;
+
+                if(!e.active)
+                    resource.querySelector('p.published').classList.remove('d-none');
                 
                 const iconClasses = {
                     0: "bi bi-person-fill",
@@ -55,7 +58,7 @@ export default class extends Controller {
             }
             this.page++;
         } catch (error) {
-            console.error('Error fetching resources:', error);
+            console.error(error);
         }
     }
     
@@ -119,13 +122,13 @@ export default class extends Controller {
                 try {
                     const response = await fetch(`/api/file/${e.id}/${e.files[0].id}`);
                     if (!response.ok) {
-                        throw new Error('Server Not Responding');
+                        throw new Error('Server not responding');
                     }
                     const videoBlob = await response.blob();
                     const videoUrl = URL.createObjectURL(videoBlob);
                     content = `<video src="${videoUrl}" controls></video>`;
                 } catch (error) {
-                    console.error('Error fetching video:', error);
+                    console.error(error);
                 }
                 break;
             case 2:
@@ -138,7 +141,7 @@ export default class extends Controller {
                     const pdfUrl = URL.createObjectURL(pdfBlob);
                     content = `<embed src="${pdfUrl}" type="application/pdf" width="100%" height="400px" />`;
                 } catch (error) {
-                    console.error('Error fetching PDF:', error);
+                    console.error(error);
                 }
                 break;
             case 3:

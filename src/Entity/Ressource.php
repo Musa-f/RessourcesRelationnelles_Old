@@ -30,6 +30,7 @@ class Ressource
     private ?int $visibility = null;
 
     #[ORM\Column]
+    #[Groups("resource.index")]
     private ?bool $active = null;
 
     #[ORM\Column(length: 255)]
