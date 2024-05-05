@@ -1,0 +1,66 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Desactiver le compte{% endblock %}
+
+{% block container %}
+    <div class="setting" data-controller="user--updateUser" >
+        <div class="nav-bar">
+            <a href="#">Informations personnelles</a><hr>
+            <a href="#">Notifications</a><hr>
+            <a href="#">Préférences de langue</a><hr>
+            <a href="#">Paramètres de confidentialité</a><hr>
+            <a href="#">Historique d'activité</a><hr>
+            <a href="#">Sécurité du compte</a><hr>
+
+            <a href="#">Paramètres de recherche</a><hr>
+            <a href="#">Paramètres de publication</a><hr>
+            <a href="#">Préférences de contenu</a><hr>
+            <a href="#">Paramètres de messagerie</a><hr>
+            <a href="#">Gestion des amis ou des contacts</a><hr>
+        </div>
+        <div class="section">
+            <div class="form-container">
+                <form id="verifPasswordForm" onsubmit="submitForm(event)">
+                    <label for="passwordInput">Entrez votre mot de passe :</label>
+                    <input type="password" id="passwordInput" name="password" placeholder="mot de passe">
+                    <button type="submit">Valider</button>
+                </form>
+            </div>
+            <div class="form-container" id="confirmForm" style="display:none;">
+                <form id="confirmForm" method="post">
+                    <label for="passwordInput">Etes vous sur de supprimer votre compte :</label>
+                    <button type="button" onclick="window.location.href = '{{ path('account_deleted', {'userId': app.user.id}) }}'">Valider</button>
+                    <button type="button" onclick="window.location.href = '{{ path('app_user') }}'">Annuler</button>
+                </form>
+            </div>
+            <script>
+                function submitForm(event) {
+                    event.preventDefault(); 
+                    
+                    const password = document.getElementById('passwordInput').value;
+
+                    fetch('{{ path('password_verified', {'userId': app.user.id}) }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            'password': password
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            document.getElementById('confirmForm').style.display = 'block';
+                            document.getElementById('verifPasswordForm').style.display = 'none';
+                        } else {
+                            alert('Le mot de passe est incorrect.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la vérification du mot de passe :', error);
+                    });
+                }
+            </script>
+        </div>
+    </div>
+{% endblock %}

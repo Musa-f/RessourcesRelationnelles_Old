@@ -1,0 +1,84 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block container %}
+    <div class="setting" data-controller="user--updateUser" >
+        <div class="nav-bar">
+            <a href="#">Informations personnelles</a><hr>
+            <a href="#">Paramètres de confidentialité</a><hr>
+            <a href="#">Historique d'activité</a><hr>
+            <a href="#">Sécurité du compte</a><hr>
+            <a href="#">Notifications</a><hr>
+            <a href="#">Paramètres de messagerie</a><hr>
+            <a href="#">Préférences de langue</a><hr>
+
+        </div>
+        <div class="section">
+
+                <h1>Informations personnelles</h1>
+                <ul>
+                    <li><strong>Identifiant:</strong> {{ app.user.login }} </li>
+                    <li><strong>Adresse e-mail:</strong> {{ app.user.email }} </li>
+                    <li><strong>Date de création:</strong> {{ app.user.creationDate |date('d/m/Y') }}</li>
+                </ul>
+
+                <h1>Paramètres de confidentialité</h1>
+                <a href="{{ path('app_changeLogin') }}">Modifier un identifiant</a><br>
+                <a href="{{ path('app_changePassword') }}">Modifier mot de passe</a><br>
+                <a href="{{ path('app_deleteAccount') }}">Supprimer mon compte</a><br>
+                <a href="{{ path('app_desactivateAccount') }}">Désactiver mon compte</a><br>
+
+                <h1>Historique d'activité</h1>
+                <a href="{{ path('ressource_liked', {'userId': app.user.id}) }}">Contenu aimé</a><br>
+                <a href="{{ path('ressource_saved', {'userId': app.user.id}) }}">Contenu enregistré</a><br>
+
+                <h1>Notifications</h1>
+                <ul>
+                    <li>
+                        <strong>Notification:</strong> 
+                        <button id="notification-button" class="toggle-button" onclick="stateNotification()">Activé</button>
+                    </li>
+                </ul>
+
+                <h1>Message par email</h1>
+                <ul>
+                    <li>
+                        <strong>Message:</strong> 
+                        <button id="message-mail-button" class="toggle-button" onclick="stateMessageMail()">Activé</button>
+                    </li>
+                </ul>
+
+                <script>
+                    function stateNotification() {
+                        var userId = '{{ app.user.id }}';
+                        fetch('{{ path('active_notification', {'userId': app.user.id}) }}')
+                            .then(response => response.text())
+                            .then(data => {
+                                var button = document.getElementById('notification-button');
+                                if (data == '1') {
+                                    button.textContent = 'Activé';
+                                } else {
+                                    button.textContent = 'Désactivé';
+                                }
+                            });
+                    }
+
+                    function stateMessageMail() {
+                        var userId = '{{ app.user.id }}';
+                        fetch('{{ path('active_messageMail', {'userId': app.user.id}) }}')
+                            .then(response => response.text())
+                            .then(data => {
+                                var button = document.getElementById('message-mail-button');
+                                if (data == '1') {
+                                    button.textContent = 'Activé';
+                                } else {
+                                    button.textContent = 'Désactivé';
+                                }
+                            });
+                    }
+                </script>
+
+        </div>
+    </div>
+{% endblock %}

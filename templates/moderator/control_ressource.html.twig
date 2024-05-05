@@ -1,0 +1,47 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block container %}
+
+<div class="container" data-controller="ressource--controlRessource">
+
+    <table class="table mt-5">
+        <thead>
+            <tr>
+                <th scope="col" class="col-2">Utilisateur</th>
+                <th scope="col">Ressource</th>
+                <th scope="col" colspan="2" class="col-4 text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ressource in ressources %}
+            <tr>
+                <th data-user-id="{{ressource.user.login}}">{{ressource.user.login}}</th>
+                <td>
+                    <b>{{ ressource.title }}</b> <br>
+                    {{ ressource.content|slice(0, 100) }}...
+                </td>
+                <td class="text-center">
+                    <button 
+                        class="btn btn-success" 
+                        data-url="{{path('validation_non_active_ressources')}}"
+                        data-ressource-id="{{ressource.id}}"
+                        data-action="click->ressource--controlRessource#validateRessource"
+                        data-validate="1"
+                    >Valider</button>
+                </td>
+                <td class="text-center">
+                    <button 
+                        class="btn btn-danger"
+                        data-validate="0"
+                    >Refuser</button></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'sections/toast.html.twig' %}
+
+{% endblock %}

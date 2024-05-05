@@ -1,0 +1,177 @@
+<div 
+    class="modal fade" 
+    id="modalNewRessource" 
+    data-bs-keyboard="false" 
+    data-bs-backdrop="static"
+    tabindex="-1" aria-labelledby="exampleModalLabel" 
+    aria-hidden="true"
+    data-controller="ressource--newRessource"
+    data-ressource--newRessource-target="modal"
+    data-url="{{path('create_ressource')}}"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content stepper">
+
+      <div class="modal-header">
+        <ul class="step-bar">
+            <li>
+                <button data-step="1" class="active-step-btn">1</button>
+                <span>Détails</span>
+            </li>
+            <li>
+                <button data-step="2">2</button>
+                <span>Format</span>
+            </li>
+            <li>
+                <button data-step="3">3</button>
+                <span>Contenu</span>
+            </li>
+            <li>
+                <button data-step="4">4</button>
+                <span>Visibilité</span>
+            </li>
+        </ul>
+      </div>
+      
+      <div class="modal-body">
+        <form class="step-content">
+          <div class="alert alert-danger d-none"></div>
+            <div id="formStep1" class="form-step active-step">
+                <div class="mb-3">
+                  <label class="form-label fs-5">Titre</label>
+                  <button 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="right"
+                    data-bs-class="tooltip-custom"
+                    class="btn mb-1"
+                    data-bs-title="Le titre de la ressource doit être descriptif et clair, reflétant son contenu et son objectif."
+                  >
+                    <i class="bi bi-info-circle"></i>
+                  </button>
+                  <input class="form-control" type="text" name="title" id="title">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fs-5">Catégorie</label>
+                  <button 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="right"
+                    data-bs-class="tooltip-custom"
+                    class="btn mb-1"
+                    data-bs-title="La catégorie représente le domaine principal auquel la ressource est associée."
+                  >
+                    <i class="bi bi-info-circle"></i>
+                  </button>
+                  <select 
+                    id="category" 
+                    data-action="click->ressource--newRessource#selectOption"
+                    class="form-select"
+                  >
+                    <option value="0">--Veuillez choisir une option--</option>
+                    {% for category in categories %}
+                    <option value="{{category.getId}}">{{category.getName}}</option>
+                    {% endfor %}
+                  </select>
+                </div> 
+
+                <div class="mb-3">
+                  <label class="form-label fs-5">Type de lien</label>
+                  <button 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="right"
+                    data-bs-class="tooltip-custom"
+                    class="btn mb-1"
+                    data-bs-title="Le type de lien indique la relation pour laquelle cette ressource est pertinente."
+                  >
+                    <i class="bi bi-info-circle"></i>
+                  </button>
+                  <select 
+                    id="link" 
+                    data-action="click->ressource--newRessource#selectOption"
+                    class="form-select"
+                  >
+                    <option value="0">--Veuillez choisir une option--</option>
+                    {% for link in links %}
+                    <option value="{{loop.index}}">{{link}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+            </div>
+
+            <div id="formStep2" class="form-step">
+              <div class="mb-3">
+                <label class="form-label fs-5">Type de format</label>
+                <button 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="right"
+                    data-bs-class="tooltip-custom"
+                    class="btn mb-1"
+                    data-bs-title="Le format correspond à la manière dont la ressource est présentée."
+                  >
+                    <i class="bi bi-info-circle"></i>
+                </button>
+                <select 
+                  id="format" 
+                  data-action="click->ressource--newRessource#selectOption"
+                  class="form-select"
+                >
+                  <option value="0">--Veuillez choisir une option--</option>
+                  {% for format in formats %}
+                  <option value="{{format.getId}}">{{format.getType}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <div id="formStep3" class="form-step">
+                {% include 'ressource/format_view.html.twig' %}
+            </div>
+
+            <div id="formStep4" class="form-step">
+              <div class="mb-3">
+                <label class="form-label fs-5">Visibilité</label>
+                <button 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="right"
+                    data-bs-class="tooltip-custom"
+                    class="btn mb-1"
+                    data-bs-title="La visibilité détermine qui peut accéder à cette ressource."
+                  >
+                    <i class="bi bi-info-circle"></i>
+                </button>
+                <select 
+                  class="form-select select-visibility" data-action="change->ressource--newRessource#toggleUserSelectVisibility"
+                >
+                    <option value="0">Privée</option>
+                    <option value="1">Partagée</option>
+                    <option value="2">Publique</option>
+                </select>
+              </div>
+              <div class="mb-3 d-none container-form-select">
+                <label class="form-label fs-5">Quel utilisateur aura accès à la ressource ?</label>
+                <select class="select-users form-select" name="states[]" multiple="multiple">
+                  {% for user in users %}
+                  <option value="{{user.getId}}">{{user.getLogin}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+        </form>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        
+        <button 
+        type="button" 
+        class="btn"
+        id="nextBtn"
+        data-action="click->ressource--newRessource#changeStep"
+        data-step="1"
+        >
+            Valider
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

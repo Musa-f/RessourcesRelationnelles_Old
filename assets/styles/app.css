@@ -1,0 +1,139 @@
+body {
+  background-color: #F9F9F9;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+nav {
+  background-color: #3D96A6;
+  box-shadow: -10px 5px 40px rgba(38, 99, 110, 0.5960784314);
+  color: #FFFFFF;
+}
+nav div img {
+  width: 130px;
+}
+nav div div {
+  display: flex;
+}
+nav div div li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+}
+nav div div li i {
+  font-size: 1.8em;
+}
+nav div div li i:hover {
+  color: #E8AA18;
+}
+nav div div li a {
+  color: white;
+  text-decoration: none;
+}
+nav div div li a button {
+  background-color: #E8AA18 !important;
+  color: white !important;
+}
+nav div div li .active {
+  color: #E8AA18;
+}
+nav div div button {
+  color: #3D96A6 !important;
+  background: #FFFFFF !important;
+}
+
+.container {
+  flex-grow: 1;
+}
+
+footer {
+  width: 100%;
+  background-color: #f1efef;
+  padding: 20px;
+}
+footer div.items {
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+}
+footer div.items ul {
+  padding: 0 0 0 20px;
+}
+footer div.items ul li {
+  list-style-type: none;
+}
+footer div.items ul li a {
+  text-decoration: none;
+  color: #212529;
+}
+footer div.items ul li a:hover {
+  color: #E8AA18;
+  text-decoration: underline;
+}
+
+.bg-homepage {
+  text-align: center;
+  background-color: #26636E;
+  height: 150px;
+  padding: 40px 0;
+}
+.bg-homepage button {
+  background-color: #E8AA18;
+  color: white;
+}
+.bg-homepage button:hover {
+  background-color: #c18d13;
+  color: white;
+}
+
+.research-nav {
+  background-color: white;
+  border: 1px solid #3D96A6;
+  margin-top: -50px;
+}
+.research-nav input.filter-btn {
+  border-radius: 0;
+  background-color: #26636E;
+  color: white;
+  padding-inline: 50px;
+}
+.research-nav input.filter-btn:hover {
+  background-color: #1a444b;
+}
+
+.stepper .step-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.stepper .step-bar li {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stepper .step-bar li button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: grey;
+  color: white;
+  border: none;
+}
+.stepper .step-bar li button:hover {
+  background-color: #E8AA18;
+}
+.stepper .step-content .form-step {
+  display: none;
+}
+.stepper .step-content #formStep3 div {
+  display: none;
+}
+.stepper .active-step-btn {
+  background-color: #3D96A6 !important;
+}
+.stepper .active-step {
+  display: block !important;
+}/*# sourceMappingURL=app.css.map */
