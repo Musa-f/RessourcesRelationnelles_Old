@@ -23,6 +23,12 @@ class UserController extends AbstractController
         return $this->render('user/index.html.twig');
     }
 
+    #[Route('/user/private-chat', name: 'app_private_chat')]
+    public function privateChat(): Response
+    {
+        return $this->render('user/private_chat.html.twig');
+    }
+
     #[Route('/user/likedRessource', name: 'app_likedRessource')]
     public function likedRessource(): Response
     {
