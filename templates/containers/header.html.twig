@@ -1,0 +1,84 @@
+<nav class="navbar navbar-expand-lg d-none d-sm-block">
+    <div class="container-fluid">
+        <a href="{{path('app_index')}}">
+            <img src="{{asset('assets/images/logo_3.png')}}" alt="logo">
+        </a>
+        <div>
+            {% if app.user %}
+
+            <li class="nav-item mx-3">
+                <a class="nav-link" href="{{path('app_index')}}"><i class="bi bi-house-door-fill"></i></a>
+            </li>
+            <li class="nav-item mx-3">
+                <a 
+                    class="nav-link" 
+                    id="popover"
+                    data-bs-container="body" 
+                    data-bs-toggle="popover" 
+                    data-bs-placement="bottom" 
+                    data-bs-content="Aucune notification."
+                >
+                    <i class="bi bi-bell-fill"></i>
+                </a>
+            </li>
+            <li class="nav-item mx-3">
+                <a class="nav-link" href="#"><i class="bi bi-bookmark-fill"></i></a>
+            </li>
+            <li class="nav-item mx-3">
+                <a class="nav-link" href="{{path('app_private_chat')}}"><i class="bi bi-wechat"></i></a>
+            </li>
+            {% if is_granted('ROLE_MODERATOR') %}
+            <li class="nav-item mx-3">
+                <a class="nav-link" href="{{path('list_non_active_resources')}}"><i class="bi bi-card-checklist"></i></a>
+            </li>
+            {% endif %}
+            <div class="vr mx-4"></div>
+            <div class="dropdown mx-3">
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i> {{app.user.getLogin}}
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="">Profil</a></li>
+                    <li><a class="dropdown-item" href="#">Paramètre</a></li>
+                    <li><a class="dropdown-item" href="{{path("app_logout")}}">Se déconnecter</a></li>
+                </ul>
+            </div>
+
+            {% else %}
+
+            <li>
+                <a href="{{path('app_login')}}" class="mx-3">Connexion</a>
+            </li>
+            <li>
+            <a href="{{path('app_register')}}">
+                <button class="btn mx-3">Inscription</button>
+            </a>
+            </li>
+
+            {% endif %}
+    </div>
+</nav>
+
+<nav class="d-block d-sm-none fixed-bottom p-3">
+
+    {% if app.user %}
+    <ul class="d-flex justify-content-around align-items-center m-0 p-0">
+        <li><i class="bi bi-house-door-fill"></i></li>
+        <li><i class="bi bi-bookmark-fill"></i></li>
+        <li class="add-btn"><i class="bi bi-plus-circle-fill"></i></li>
+        <li><i class="bi bi-wechat"></i></li>
+        <li><i class="bi bi-person-circle"></i></li>
+    </ul>
+    {% else %}
+    <ul class="d-flex justify-content-around align-items-center m-0 p-0">
+        <li>
+            <a href="{{path('app_login')}}" class="mx-3">Connexion</a>
+        </li>
+        <li>
+            <a href="{{path('app_register')}}">
+                <button class="btn mx-3">Inscription</button>
+            </a>
+        </li>
+    </ul>
+    {% endif %}
+</nav>

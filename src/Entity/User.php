@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['id'], message: 'There is already an account with this id')]
@@ -18,6 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('user.index')]
     private ?int $id = null;
 
     /**
@@ -33,12 +35,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 20)]
+    #[Groups('user.index')]
     private ?string $login = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('user.index')]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Groups('user.index')]
     private ?bool $active = null;
 
     #[ORM\OneToMany(targetEntity: Connection::class, mappedBy: 'user1')]

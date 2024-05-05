@@ -24,7 +24,7 @@ class RessourceRepository extends ServiceEntityRepository
         parent::__construct($registry, Ressource::class);
     }
 
-    public function createRessource($data, $format, $category, $user)
+    public function createRessource($data, $format, $category, $user, $sharedUsers)
     {
         try {
             $entityManager = $this->getEntityManager();
@@ -39,6 +39,12 @@ class RessourceRepository extends ServiceEntityRepository
             $ressource->setCategory($category);
             $ressource->setUser($user);
 
+            if(!empty($sharedUsers)){
+                foreach($sharedUsers as $sharedUser){
+                    $ressource->addShare($sharedUser);
+                }
+            }
+
             if(!empty($data['content']))
                 $ressource->setContent($data['content']);
     
@@ -51,11 +57,6 @@ class RessourceRepository extends ServiceEntityRepository
         }
     }
 
-    //*** visiblesRessources
-    //contient toutes les ressources en publique (visibility à 2)
-    //contient toutes les ressources en privées (visiblity à 0) si l'id user rattaché à la ressource est le même que celui de la session en cours (celui passé en argument à la méthode)
-    //contient toutes les ressources en partagées (visibility à 1) si l'id du user est dans la table "shares"
-
     public function findNotActivatedRessources()
     {
         return $this->createQueryBuilder('r')
@@ -65,23 +66,50 @@ class RessourceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findResourcesByVisibility($userId)
+    public function findResourcesByVisibility($user = null, $page = 1, $limit = 3)
     {
         $qb = $this->createQueryBuilder('r')
             ->andWhere('r.visibility = :publicVisibility')
-            ->setParameter('publicVisibility', 2);
+            ->andWhere('r.active = 1')
+            ->setParameter('publicVisibility', 2)
+            ->orderBy('r.creationDate', 'DESC');
 
-        $user = $this->security->getUser();
         if ($user) {
             $qb->orWhere('r.visibility = :privateVisibility AND r.user = :userId')
                ->setParameter('privateVisibility', 0)
-               ->setParameter('userId', $userId);
+               ->setParameter('userId', $user->getId());
 
             $qb->orWhere(':user MEMBER OF r.shares AND r.visibility = :sharedVisibility')
                ->setParameter('sharedVisibility', 1)
-               ->setParameter('user', $user);
+               ->setParameter('user', $user->getId());
+
+            $qb->orWhere('r.user = :user')
+                ->setParameter('user', $user->getId());
         }
 
+        $qb->setMaxResults($limit)
+        ->setFirstResult(($page - 1) * $limit);
+
         return $qb->getQuery()->getResult();
+    }
+
+    public function searchResources($category, $link, $keyword)
+    {
+        $queryBuilder = $this->createQueryBuilder('r')
+            ->leftJoin('r.category', 'c')
+            ->where('r.title LIKE :keyword OR r.content LIKE :keyword')
+            ->setParameter('keyword', '%' . $keyword . '%');
+
+        if ($category) {
+            $queryBuilder->andWhere('c.id = :categoryId')
+                ->setParameter('categoryId', $category);
+        }
+
+        if ($link) {
+            $queryBuilder->andWhere('r.type = :link')
+                ->setParameter('link', $link);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }

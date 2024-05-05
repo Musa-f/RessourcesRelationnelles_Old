@@ -7,7 +7,6 @@
     aria-hidden="true"
     data-controller="ressource--newRessource"
     data-ressource--newRessource-target="modal"
-    data-url="{{path('create_ressource')}}"
 >
   <div class="modal-dialog modal-lg">
     <div class="modal-content stepper">
@@ -63,14 +62,10 @@
                     <i class="bi bi-info-circle"></i>
                   </button>
                   <select 
-                    id="category" 
                     data-action="click->ressource--newRessource#selectOption"
-                    class="form-select"
+                    class="form-select select-category"
                   >
                     <option value="0">--Veuillez choisir une option--</option>
-                    {% for category in categories %}
-                    <option value="{{category.getId}}">{{category.getName}}</option>
-                    {% endfor %}
                   </select>
                 </div> 
 
@@ -86,14 +81,10 @@
                     <i class="bi bi-info-circle"></i>
                   </button>
                   <select 
-                    id="link" 
                     data-action="click->ressource--newRessource#selectOption"
-                    class="form-select"
+                    class="form-select select-link"
                   >
                     <option value="0">--Veuillez choisir une option--</option>
-                    {% for link in links %}
-                    <option value="{{loop.index}}">{{link}}</option>
-                    {% endfor %}
                   </select>
                 </div>
             </div>
@@ -111,14 +102,10 @@
                     <i class="bi bi-info-circle"></i>
                 </button>
                 <select 
-                  id="format" 
                   data-action="click->ressource--newRessource#selectOption"
-                  class="form-select"
+                  class="form-select select-format"
                 >
                   <option value="0">--Veuillez choisir une option--</option>
-                  {% for format in formats %}
-                  <option value="{{format.getId}}">{{format.getType}}</option>
-                  {% endfor %}
                 </select>
               </div>
             </div>
@@ -149,10 +136,10 @@
               </div>
               <div class="mb-3 d-none container-form-select">
                 <label class="form-label fs-5">Quel utilisateur aura accès à la ressource ?</label>
-                <select class="select-users form-select" name="states[]" multiple="multiple">
-                  {% for user in users %}
+                <select class="select-users form-select select-user" name="states[]" multiple="multiple">
+                  {# {% for user in users %}
                   <option value="{{user.getId}}">{{user.getLogin}}</option>
-                  {% endfor %}
+                  {% endfor %} #}
                 </select>
               </div>
             </div>

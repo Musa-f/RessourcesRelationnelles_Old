@@ -8,6 +8,8 @@ use Mailtrap\MailtrapClient;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Mailtrap\EmailHeader\CategoryHeader;
+use Mailtrap\EmailHeader\Template\TemplateUuidHeader;
+use Mailtrap\EmailHeader\Template\TemplateVariableHeader;
 
 class MailService
 {  
@@ -20,11 +22,13 @@ class MailService
         $activationLink = $_ENV['APP_URL'] . '/account/activation?token=' . $activationToken;
 
         $email = (new Email())
-            ->from(new Address('mailtrap@demomailtrap.com', 'Mailtrap Test'))
-            ->to(new Address($recipientEmail))
-            ->subject('Activate Your Account')
-            ->html("Please click <a href=\"$activationLink\">here</a> to activate your account.")
-        ;
+            ->from(new Address($_ENV['APP_SENDER'], 'Ressources Relationnelles'))
+            ->to(new Address($recipientEmail));
+
+        $email->getHeaders()
+            ->add(new TemplateUuidHeader('8a2b9f51-78af-4421-8702-992aeddce0aa'))
+            ->add(new TemplateVariableHeader('user_email', $recipientEmail))
+            ->add(new TemplateVariableHeader('pass_reset_link', $activationLink));
 
         return $mailtrap->sending()->emails()->send($email);
     }
@@ -39,7 +43,7 @@ class MailService
             ->subject('Code de réinitialisation')
             ->html("Votre code de réinitialisation est : ' . $reinitCodeToken")
         ;
-
+            
         return $mailtrap->sending()->emails()->send($email);
     }
 }

@@ -108,13 +108,13 @@ class AuthentificationController extends AbstractController
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
                 
-                return $this->render('sections/system_messages.html.twig', [
+                return $this->render('containers/system_messages.html.twig', [
                     "message" => "Votre compte a été activé avec succès. Vous pouvez vous connecter dès maintenant."
                 ]);
             }
         }
 
-        return $this->render('sections/system_messages.html.twig', [
+        return $this->render('containers/system_messages.html.twig', [
             "message" => "Une erreur est survenue"
         ]);
     }

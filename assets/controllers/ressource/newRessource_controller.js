@@ -22,9 +22,9 @@ export default class extends Controller {
         tooltipTriggerList.forEach(function(tooltipTriggerEl) { new Tooltip(tooltipTriggerEl); });
     }
     
-    createRessource()
+    addResource()
     {
-        let url = this.modalBody.dataset.url;
+        let url = "/api/resource/add";
         let data = new FormData();
         data.append("data", JSON.stringify(this.postData));
 
@@ -68,7 +68,7 @@ export default class extends Controller {
     changeStyle(currentStep, currentForm)
     {
         if (currentStep == 4) {
-            this.createRessource();
+            this.addResource();
             return;
         }
         let nextStep = parseInt(currentStep)+1;
@@ -84,8 +84,8 @@ export default class extends Controller {
         switch(step){
             case '1':
                 let title = form.querySelector("input#title").value;
-                let category = this.selectOption(form.querySelector("select#category"));
-                let link = this.selectOption(form.querySelector("select#link"));
+                let category = this.selectOption(form.querySelector("select.select-category"));
+                let link = this.selectOption(form.querySelector("select.select-link"));
 
                 if(title != null && category != 0 && link != 0) {
                     this.postData.title = title;
@@ -96,7 +96,7 @@ export default class extends Controller {
                 }
             break;
             case '2':
-                let format = this.selectOption(form.querySelector("select#format"));
+                let format = this.selectOption(form.querySelector("select.select-format"));
                 if(format != 0)
                 {
                     this.postData.format = format;

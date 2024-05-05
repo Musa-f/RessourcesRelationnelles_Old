@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RessourceRepository::class)]
 class Ressource
@@ -14,21 +15,26 @@ class Ressource
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("resource.index")]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups("resource.index")]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups("resource.index")]
     private ?\DateTimeInterface $creationDate = null;
 
     #[ORM\Column]
     private ?int $visibility = null;
 
     #[ORM\Column]
+    #[Groups("resource.index")]
     private ?bool $active = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("resource.index")]
     private ?string $type = null;
 
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'ressource')]
@@ -36,13 +42,16 @@ class Ressource
 
     #[ORM\ManyToOne(inversedBy: 'ressource')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups("resource.index")]
     private ?Format $format = null;
 
     #[ORM\ManyToOne(inversedBy: 'ressource')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups("resource.index")]
     private ?Category $category = null;
 
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'ressource')]
+    #[Groups("resource.index")]
     private Collection $files;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'liked')]
@@ -69,6 +78,7 @@ class Ressource
     private ?\DateTimeInterface $publicationDate = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups("resource.index")]
     private ?string $content = null;
 
     public function __construct()
@@ -77,6 +87,7 @@ class Ressource
         $this->likes = new ArrayCollection();
         $this->saves = new ArrayCollection();
         $this->views = new ArrayCollection();
+        $this->shares = new ArrayCollection();
         $this->files = new ArrayCollection();
     }
 
