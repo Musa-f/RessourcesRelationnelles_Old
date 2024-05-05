@@ -65,13 +65,6 @@ class UserController extends AbstractController
         return $this->render('user/changeLogin.html.twig');
     }
 
-
-
-
-
-
-
-
     #[Route('/user/index/active_notification/{userId}', name: 'active_notification')]
     public function active_notification($userId, UserRepository $userRepository): Response
     {
@@ -152,7 +145,6 @@ class UserController extends AbstractController
         ]);
     }
 
-//fonction veifier le mots de passe
     #[Route('/user/index/password_verified/{userId}', name: 'password_verified')]
     public function verifyPassword($userId, Request $request, UserRepository $userRepository)
     {
@@ -173,7 +165,6 @@ class UserController extends AbstractController
         }
     }
 
-//fonction verifier le mail
     #[Route('/user/index/email_verified/{userId}', name: 'email_verified')]
     public function verifyEmail($userId, Request $request, UserRepository $userRepository)
     {
@@ -188,14 +179,13 @@ class UserController extends AbstractController
 
         if ($email === $storedEmail) {
             $this->generateReinitCode($userId, $userRepository);
-            return $this->json ('Le mail est correct.', 200);
+            return $this->json('Le mail est correct.', 200);
 
         } else {
             return $this->json('Le mail est incorrect.', 403);
         }
     }
 
-//fonction verifier le CR
     #[Route('/user/index/codeReinit_verified/{userId}', name: 'codeReinit_verified')]
     public function verifyReinitCode($userId, Request $request, UserRepository $userRepository): Response
     {
@@ -224,23 +214,16 @@ class UserController extends AbstractController
         }
     
         $reinitCode = mt_rand(100000, 999999);
-    
         $user->setCodeReinit($reinitCode);
     
         $entityManager = $userRepository->getEntityManager();
         $entityManager->flush();
-  //      MailService::reinitCodeMail($user->getEmail(), $reinitCode);
+        MailService::reinitCodeMail($user->getEmail(), $reinitCode);
     
         return new Response('Code généré avec succès.', Response::HTTP_OK); 
     }
 
 
-
-
-
-
-
-//Fonction changer de mot de passe
     #[Route('/user/index/password_changed/{userId}', name: 'password_changed')]
     public function changePassword(Request $request, $userId, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher)
     {
@@ -268,7 +251,6 @@ class UserController extends AbstractController
         return new Response($jsScript . $this->redirectToRoute('app_user'));
     }
 
-//Fonction changer d'identifiant
     #[Route('/user/index/login_changed/{userId}', name: 'login_changed')]
     public function changeLogin(Request $request, $userId, UserRepository $userRepository)
     {
@@ -301,7 +283,6 @@ class UserController extends AbstractController
         return new Response($jsScript . $this->redirectToRoute('app_user'));
     }
 
-//Fonction desactiver le compte
     #[Route('/user/index/account_desactivated/{userId}', name: 'account_desactivated')]
     public function deactivateAccount($userId, UserRepository $userRepository)
     {
@@ -321,7 +302,6 @@ class UserController extends AbstractController
         return new Response($jsScript . $this->redirectToRoute('app_logout'));
     }
 
-//Fonction supprimer le compte
     #[Route('/user/index/account_deleted/{userId}', name: 'account_deleted')]
     public function deleteAccount($userId, UserRepository $userRepository)
     {

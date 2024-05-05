@@ -38,7 +38,7 @@ class MailService
         $mailtrap = new MailtrapClient(new Config($_ENV['APP_SECRET_MAILTRAP']));
 
         $email = (new Email())
-            ->from(new Address('mailtrap@demomailtrap.com', 'Mailtrap Test'))
+            ->from(new Address($_ENV['APP_SENDER'], 'Ressources Relationnelles'))
             ->to(new Address($recipientEmail))
             ->subject('Code de réinitialisation')
             ->html("Votre code de réinitialisation est : ' . $reinitCodeToken")
