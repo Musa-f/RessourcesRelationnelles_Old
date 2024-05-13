@@ -1,6 +1,6 @@
 # PREREQUIS
 -> Xampp (avec PHP >=8.2) <br>
--> Git
+-> Git <br>
 -> Scoop (gestionnaire de packages, permettant d'automatiser l'installation et la maintenance d'outils) : 
 ```
 iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
@@ -14,32 +14,6 @@ scoop install symfony-cli
  <br>
 
 # CONFIGURATION DU PROJET
-<i>Les étapes suivantes sont juste indiquées à titre indicatif (ne pas les faire)</i> <br>
-```
-symfony new ressources_relationnelles --webapp
-```
--> Installation de webpack qui nous permettra de compiler nos fichiers
-```
-composer require symfony/webpack-encore-bundle
-```
--> Installation des dépendances JS
-```
-npm install
-```
--> Installation du framework javascript
-```
-npm i @symfony/stimulus-bridge
-```
--> Installation de l'ORM de symfony : 
-```
-composer require symfony/orm-pack
-```
--> Création de compte par vérification mail (à configurer plus tard) : 
-```
-composer require symfonycasts/verify-email-bundle
-```
-
-# INSTALLATION DU PROJET
 -> Installer les dépendances PHP : 
 ```
 composer install
