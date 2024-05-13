@@ -85,13 +85,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $codeReinit = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $notification = false;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $messageMail = false;
 
     public function __construct()

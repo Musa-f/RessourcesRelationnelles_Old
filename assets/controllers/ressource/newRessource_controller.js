@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import $ from 'jquery';
-import { Tooltip } from 'bootstrap';
+
 
 export default class extends Controller {
     static targets = ["modal"];
@@ -18,8 +18,8 @@ export default class extends Controller {
             dropdownParent: $('#modalNewRessource')
         });
         
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        tooltipTriggerList.forEach(function(tooltipTriggerEl) { new Tooltip(tooltipTriggerEl); });
+        // const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        // tooltipTriggerList.forEach(function(tooltipTriggerEl) { new Tooltip(tooltipTriggerEl); });
     }
     
     addResource()

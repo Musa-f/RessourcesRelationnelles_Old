@@ -206,10 +206,9 @@ div.system-messages{
         color: #1a444b;
         }
     }
-      
   }
   
-  @media (min-width: 768px) {
+@media (min-width: 768px) {
     nav{
         position: sticky !important;
         z-index: 5;
