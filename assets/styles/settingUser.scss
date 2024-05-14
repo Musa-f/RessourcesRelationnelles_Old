@@ -1,0 +1,206 @@
+.setting {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+    padding: 50px;
+}
+
+.nav-bar {
+    width: 250px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.nav-bar a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.nav-bar a:hover {
+    background-color: #f0f0f0;
+}
+
+.nav-bar hr {
+    margin: 8px 0;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+.section {
+    flex: 1;
+    padding: 50px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    align-items: flex-start;
+}
+
+.section h1 {
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #262626;
+}
+
+.section ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.section a {
+    color: #00376b;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.section a:hover {
+    text-decoration: underline;
+}
+
+.toggle-button {
+    background-color: #3897f0;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.toggle-button:hover {
+    background-color: #3578e5;
+}
+
+.section form {
+    display: inline-block;
+}
+
+#langues-select {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.form-container form {
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 650px; 
+}
+
+.form-container form label {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.form-container form input[type="text"],
+.form-container form input[type="password"],
+.form-container form input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-container form input[type="text"]:hover,
+.form-container form input[type="password"]:hover,
+.form-container form input[type="email"]:hover,
+.form-container form input[type="text"]:focus,
+.form-container form input[type="password"]:focus,
+.form-container form input[type="email"]:focus {
+    border-color: #4caf50; 
+}
+
+.form-container form button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container form button[type="submit"],
+.form-container form button[type="button"] {
+    margin-right: 10px;
+}
+
+.form-container form button:hover {
+    background-color: #45a049; 
+}
+
+
+
+#verifCodeReinitForm {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+}
+
+#verifCodeReinitForm label {
+    margin-bottom: 10px; 
+}
+
+.code-container {
+    display: flex;
+    align-items: flex-start; 
+}
+
+#verifCodeReinitForm input.code {
+    width: 50px; 
+    padding: 12px;
+    margin-right: 10px; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    text-align: center;
+}
+
+#verifCodeReinitForm input.code:last-child {
+    margin-right: 0; 
+}
+
+#verifCodeReinitForm input.code:hover,
+#verifCodeReinitForm input.code:focus {
+    border-color: #4caf50; 
+    outline: none;
+}
+
+.button-container {
+    display: flex;
+    align-items: flex-start; 
+    margin-top: 10px; 
+}
+
+#verifCodeReinitForm button {
+    margin-right: 10px; 
+}

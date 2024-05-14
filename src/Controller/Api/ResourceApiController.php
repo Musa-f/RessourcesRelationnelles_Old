@@ -45,7 +45,8 @@ class ResourceApiController extends AbstractController
                 'resource.index', 
                 'category.index', 
                 'format.index',
-                'file.index'
+                'file.index',
+                'user.index'
             ]
         ]);
     }

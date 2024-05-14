@@ -6,6 +6,8 @@ use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -77,5 +79,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('currentUserId', $currentUserId)
             ->getQuery()
             ->getResult();
+    }
+
+    public function modifierIdentifiant(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $password = $data['password'];
+        if ($password === 'mot_de_passe_correct') { 
+            $newLogin = $data['newLogin'];
+
+            return new JsonResponse(['success' => true]);
+        } else {
+            return new JsonResponse(['error' => 'Mot de passe incorrect.'], 400);
+        }
     }
 }

@@ -38,6 +38,7 @@ export default class extends Controller {
                 resource.classList.remove("d-none");
                 resource.querySelector('h3.title').innerHTML = e.title;
                 resource.querySelector('p.category').innerHTML = e.category.name;
+                resource.querySelector('p.author').innerHTML = "Par " + e.user.login;
 
                 if(!e.active)
                     resource.querySelector('p.published').classList.remove('d-none');

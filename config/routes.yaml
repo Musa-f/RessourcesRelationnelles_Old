@@ -3,3 +3,8 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+modifier_identifiant:
+    path: '/modifier-identifiant'
+    controller: 'App\Controller\UserController::modifierIdentifiant'
+    methods: ['POST']

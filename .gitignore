@@ -9,7 +9,6 @@
 /public/uploads/
 /var/
 /vendor/
-/src/DataFixtures/
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
@@ -22,6 +21,7 @@
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/asset-mapper ###
+/public/assets/uploads
 /assets/vendor/
 ###< symfony/asset-mapper ###
 

@@ -1,0 +1,10 @@
+{% extends 'user/index.html.twig' %}
+
+{% block title %}Ressources aimées{% endblock %}
+
+{% block container %}
+<h1>Ressources aimées par {{ app.user.login }}</h1>
+    {% for ressource in ressourcesAimees %}
+        {{ ressource.title }}
+    {% endfor %}
+{% endblock %}

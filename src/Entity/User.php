@@ -85,6 +85,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $codeReinit = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $notification = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $messageMail = false;
+
     public function __construct()
     {
         $this->connection1 = new ArrayCollection();
@@ -107,6 +116,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setId(string $id): static
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getNotification(): ?bool
+    {
+        return $this->notification;
+    }
+
+    public function setNotification(bool $notification): static
+    {
+        $this->notification = $notification;
+
+        return $this;
+    }
+
+    public function getMessageMail(): ?bool
+    {
+        return $this->messageMail;
+    }
+
+    public function setMessageMail(bool $messageMail): static
+    {
+        $this->messageMail = $messageMail;
+
+        return $this;
+    }
+
+    public function getCodeReinit(): ?string
+    {
+        return $this->codeReinit;
+    }
+
+    public function setCodeReinit(string $codeReinit): static
+    {
+        $this->codeReinit = $codeReinit;
 
         return $this;
     }

@@ -19,7 +19,7 @@
 
             {{ form_start(registrationForm) }}
                 <div class="mb-3">
-                    <label for="{{ registrationForm.login.vars.id }}">Login</label>
+                    <label for="{{ registrationForm.login.vars.id }}">Nom d'utilisateur</label>
                     {{ form_widget(registrationForm.login, {'attr': {'class': 'form-control'}}) }}
                 </div>
                 <div class="mb-3">
@@ -27,7 +27,18 @@
                     {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
                 </div>
                 <div class="mb-3">
-                    <label for="{{ registrationForm.password.vars.id }}">Password</label>
+                    <label for="{{ registrationForm.password.vars.id }}">
+                        Mot de passe
+                        <button 
+                            data-bs-toggle="tooltip" 
+                            data-bs-placement="right"
+                            data-bs-class="tooltip-custom"
+                            class="btn mb-1"
+                            data-bs-title="Le mot de passe doit comporter au moins 8 caractères et inclure des lettres majuscules, des lettres minuscules ainsi que des caractères spéciaux."
+                        >
+                            <i class="bi bi-info-circle"></i>
+                        </button>
+                    </label>
                     {{ form_widget(registrationForm.password, {'attr': {'class': 'form-control'}, 'label': 'Password'}) }}
                 </div>
 
