@@ -12,11 +12,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Service\MailService;
-
-
+use Doctrine\ORM\EntityManagerInterface;
 
 class UserController extends AbstractController
 {
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
     #[Route('/user', name: 'app_user')]
     public function index(): Response
     {
@@ -302,21 +308,21 @@ class UserController extends AbstractController
         return new Response($jsScript . $this->redirectToRoute('app_logout'));
     }
 
-    #[Route('/user/index/account_deleted/{userId}', name: 'account_deleted')]
-    public function deleteAccount($userId, UserRepository $userRepository)
+    #[Route('/user/index/account_deleted/{userId}', name: 'account_deleted', methods:['DELETE'])]
+    public function deleteAccount($userId) : Response
     {
-        $user = $userRepository->find($userId);
+        $user = $this->em->getRepository(User::class)->find($userId);
 
         if (!$user) {
             throw $this->createNotFoundException('Utilisateur non trouvé.');
         }
 
-        $entityManager = $userRepository->getEntityManager();
-        $entityManager->remove($user);
-        $entityManager->flush();
+        $this->em->remove($user);
+        $this->em->flush();
 
         $jsScript = '<script>alert("Votre compte a été supprimé avec succès.");</script>';
 
+        //return new JsonResponse()
         return new Response($jsScript . $this->redirectToRoute('app_logout'));
     }
 }

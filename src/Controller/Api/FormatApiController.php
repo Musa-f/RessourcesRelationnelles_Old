@@ -11,11 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FormatApiController extends AbstractController
 {
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
+        //$this->entityManager = $entityManager;
     }
 
     #[Route('/api/formats', name: 'api_formats', methods: ['GET'])]
